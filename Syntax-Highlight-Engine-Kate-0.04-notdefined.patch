@@ -1,0 +1,67 @@
+diff -up Syntax-Highlight-Engine-Kate-0.04/lib/Syntax/Highlight/Engine/Kate/All.pm.old Syntax-Highlight-Engine-Kate-0.04/lib/Syntax/Highlight/Engine/Kate/All.pm
+--- Syntax-Highlight-Engine-Kate-0.04/lib/Syntax/Highlight/Engine/Kate/All.pm.old	2006-08-20 23:10:45.000000000 +0200
++++ Syntax-Highlight-Engine-Kate-0.04/lib/Syntax/Highlight/Engine/Kate/All.pm	2009-04-29 15:33:35.923321436 +0200
+@@ -16,8 +16,6 @@ use Syntax::Highlight::Engine::Kate::AWK
+ use Syntax::Highlight::Engine::Kate::Ada;
+ use Syntax::Highlight::Engine::Kate::Alerts;
+ use Syntax::Highlight::Engine::Kate::Asm6502;
+-use Syntax::Highlight::Engine::Kate::BaseTest;
+-use Syntax::Highlight::Engine::Kate::BaseTestchild;
+ use Syntax::Highlight::Engine::Kate::Bash;
+ use Syntax::Highlight::Engine::Kate::BibTeX;
+ use Syntax::Highlight::Engine::Kate::C;
+diff -up Syntax-Highlight-Engine-Kate-0.04/lib/Syntax/Highlight/Engine/Kate.pm.old Syntax-Highlight-Engine-Kate-0.04/lib/Syntax/Highlight/Engine/Kate.pm
+--- Syntax-Highlight-Engine-Kate-0.04/lib/Syntax/Highlight/Engine/Kate.pm.old	2008-02-04 06:47:19.000000000 +0100
++++ Syntax-Highlight-Engine-Kate-0.04/lib/Syntax/Highlight/Engine/Kate.pm	2009-04-29 15:56:37.241071190 +0200
+@@ -79,7 +79,6 @@ sub new {
+ 		'*.asp' => ['ASP', ],
+ 		'*.awk' => ['AWK', ],
+ 		'*.bas' => ['FreeBASIC', ],
+-		'*.basetest' => ['BaseTest', ],
+ 		'*.bash' => ['Bash', ],
+ 		'*.bi' => ['FreeBASIC', ],
+ 		'*.bib' => ['BibTeX', ],
+@@ -234,7 +233,6 @@ sub new {
+ 		'*.tji' => ['TaskJuggler', ],
+ 		'*.tjp' => ['TaskJuggler', ],
+ 		'*.tk' => ['Tcl/Tk', ],
+-		'*.tst' => ['BaseTestchild', ],
+ 		'*.uc' => ['UnrealScript', ],
+ 		'*.v' => ['Verilog', ],
+ 		'*.vcg' => ['GDL', ],
+@@ -417,8 +415,6 @@ sub new {
+ 			'yacas',
+ 		],
+ 		'Test' => [
+-			'BaseTest',
+-			'BaseTestchild',
+ 		],
+ 	};
+ 	$self->{'syntaxes'} = {
+@@ -436,8 +432,6 @@ sub new {
+ 		'Ansys' => 'Ansys',
+ 		'Apache Configuration' => 'Apache_Configuration',
+ 		'Asm6502' => 'Asm6502',
+-		'BaseTest' => 'BaseTest',
+-		'BaseTestchild' => 'BaseTestchild',
+ 		'Bash' => 'Bash',
+ 		'BibTeX' => 'BibTeX',
+ 		'C' => 'C',
+diff -up Syntax-Highlight-Engine-Kate-0.04/lib/Syntax/Highlight/Engine/Kate/Template.pm.old Syntax-Highlight-Engine-Kate-0.04/lib/Syntax/Highlight/Engine/Kate/Template.pm
+--- Syntax-Highlight-Engine-Kate-0.04/lib/Syntax/Highlight/Engine/Kate/Template.pm.old	2009-04-28 10:31:14.097979796 +0200
++++ Syntax-Highlight-Engine-Kate-0.04/lib/Syntax/Highlight/Engine/Kate/Template.pm	2009-04-28 10:43:19.169730781 +0200
+@@ -531,9 +531,11 @@ sub snippet {
+ 
+ sub snippetAppend {
+ 	my ($self, $ch) = @_;
+-	$self->{'snippet'} = $self->{'snippet'} . $ch;
+-	if ($ch ne '') {
+-		$self->linesegment($self->linesegment . $ch);
++	if (defined($ch)) {
++		$self->{'snippet'} = $self->{'snippet'} . $ch;
++		if ($ch ne '') {
++			$self->linesegment($self->linesegment . $ch);
++		}
+ 	}
+ }
+ 
